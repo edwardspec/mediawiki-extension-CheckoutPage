@@ -144,6 +144,7 @@ class CheckoutPageHooks {
 	 * @return array
 	 */
 	public static function pfStatus( Parser $parser, $pageName ) {
+		$title = null;
 		if ( $pageName ) {
 			$title = Title::newFromText( $pageName );
 		}

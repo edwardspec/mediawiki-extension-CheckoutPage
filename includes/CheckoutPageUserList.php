@@ -7,6 +7,7 @@
  */
 
 use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\Revision\SlotRecord;
 
 /**
  * @file
@@ -125,17 +126,19 @@ class CheckoutPageUserList {
 		foreach ( $this->usernames as $name ) {
 			$text .= '* ' . $name . "\n";
 		}
+		$content = ContentHandler::makeContent( $text, null, CONTENT_MODEL_WIKITEXT );
 
 		$user = User::newSystemUser( 'CheckoutPage' );
-		$summary = wfMessage( 'checkoutpage-update' )->inContentLanguage()->escaped();
+		$summary = CommentStoreComment::newUnsavedComment(
+			wfMessage( 'checkoutpage-update' )->inContentLanguage()->escaped()
+		);
 
 		$page = new WikiPage( $this->title );
-		return $page->doEditContent(
-			ContentHandler::makeContent( $text, null, CONTENT_MODEL_WIKITEXT ),
-			CommentStoreComment::newUnsavedComment( $summary ),
-			EDIT_INTERNAL,
-			$this->originalRevId,
-			$user
-		);
+
+		$updater = $page->newPageUpdater( $user );
+		$updater->setContent( SlotRecord::MAIN, $content );
+		$updater->saveRevision(  $summary , EDIT_INTERNAL );
+
+		return $updater->getStatus();
 	}
 }

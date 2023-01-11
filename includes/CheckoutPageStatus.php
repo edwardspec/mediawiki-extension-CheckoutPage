@@ -83,7 +83,7 @@ class CheckoutPageStatus {
 			// Not available for checkout: this user is not in "allowed users" list.
 			$allowedUsers = new CheckoutPageUserList( Title::newFromText( $allowedUsersPage ) );
 			if ( !$allowedUsers->hasUser( $user ) ) {
-				$actionText = wfMessage( 'checkoutpage-status-not-allowed' )->numParams( $daysUntilAvailable )->escaped();
+				$actionText = wfMessage( 'checkoutpage-status-not-allowed' )->escaped();
 
 				return Xml::element( 'span', [ 'class' => 'checkoutpage-not-allowed' ], $actionText );
 			}

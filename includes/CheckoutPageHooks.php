@@ -105,10 +105,10 @@ class CheckoutPageHooks {
 
 		// Remember these options in the database.
 		$pout = $parser->getOutput();
-		$pout->setProperty( 'maxConcurrent', $maxConcurrent );
-		$pout->setProperty( 'checkoutDays', $checkoutDays );
-		$pout->setProperty( 'accessPage', $accessPage );
-		$pout->setProperty( 'allowedUsersPage', $allowedUsersPage );
+		$pout->setPageProperty( 'maxConcurrent', $maxConcurrent );
+		$pout->setPageProperty( 'checkoutDays', $checkoutDays );
+		$pout->setPageProperty( 'accessPage', $accessPage );
+		$pout->setPageProperty( 'allowedUsersPage', $allowedUsersPage );
 
 		// Re-apply page properties "checkoutExpiry.<username>",
 		// so that they are not deleted when the page is edited.
@@ -125,7 +125,7 @@ class CheckoutPageHooks {
 			__METHOD__
 		);
 		foreach ( $res as $row ) {
-			$pout->setProperty( $row->prop, $row->value );
+			$pout->setPageProperty( $row->prop, $row->value );
 		}
 
 		// When successful, {{#checkout:}} will show "N days remaining, return now" link.
@@ -164,8 +164,8 @@ class CheckoutPageHooks {
 	 * @return array This value should be returned by the parser function that called this method.
 	 */
 	protected static function addStatusToParserOutput( ParserOutput $pout, Title $title ) {
-		$pout->addModules( 'ext.checkoutpage.status' );
-		$pout->addModuleStyles( 'ext.checkoutpage.status.css' );
+		$pout->addModules( [ 'ext.checkoutpage.status' ] );
+		$pout->addModuleStyles( [ 'ext.checkoutpage.status.css' ] );
 
 		$html = Xml::tags( 'div', [
 			'class' => 'checkoutpage-status',

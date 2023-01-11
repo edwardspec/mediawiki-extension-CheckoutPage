@@ -63,7 +63,7 @@ class CheckoutPageStatus {
 		}
 
 		$username = $user->getName();
-		if ( $user->isLoggedIn() && isset( $usernameToExpiry[$username] ) ) {
+		if ( $user->isRegistered() && isset( $usernameToExpiry[$username] ) ) {
 			// This user has already checked out this page.
 			// Information to show: expiration time. Possible action: return the book immediately.
 
